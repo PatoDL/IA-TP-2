@@ -1,18 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Animations;
 
-public class MarkingState : MyStateMachineBehaviour
+public class PatrolState : MyStateMachineBehaviour
 {
-    private ExplorerBehaviour explorerBehaviour;
-
+    private WorkerBehaviour workerBehaviour;
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.OnStateEnter(animator, stateInfo, layerIndex);
+        workerBehaviour = animator.GetComponent<WorkerBehaviour>();
+        if (workerBehaviour != null)
+            workerBehaviour.canSearch = true;
+        StartNewPath();
+    }
 
-        explorerBehaviour = animator.GetComponent<ExplorerBehaviour>();
-        if(explorerBehaviour != null)
-            StartNewPath(explorerBehaviour.nearestMine.position);
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        base.OnStateExit(animator, stateInfo, layerIndex);
+        if (workerBehaviour != null)
+            workerBehaviour.canSearch = false;
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -36,9 +44,7 @@ public class MarkingState : MyStateMachineBehaviour
             }
             else
             {
-                explorerBehaviour.nearestMine.GetComponent<MineBehaviour>().Explore();
-                animator.SetTrigger("MineMarked");
-                explorerBehaviour.canSearch = false;
+                StartNewPath();
             }
         }
     }

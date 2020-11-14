@@ -1,21 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Animations;
 
-public class PatrolState : MyStateMachineBehaviour
+public class MarkingState : MyStateMachineBehaviour
 {
+    private ExplorerBehaviour explorerBehaviour;
+
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         base.OnStateEnter(animator, stateInfo, layerIndex);
-        StartNewPath();
-    }
 
-
-    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        base.OnStateExit(animator, stateInfo, layerIndex);
+        explorerBehaviour = animator.GetComponent<ExplorerBehaviour>();
+        if (explorerBehaviour != null && explorerBehaviour.nearestMine != null)
+        {
+            StartNewPath(explorerBehaviour.nearestMine.position);
+            explorerBehaviour.marking = true;
+            explorerBehaviour.canSearch = false;
+        }
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -37,9 +38,11 @@ public class PatrolState : MyStateMachineBehaviour
                 pathIndex++;
                 Target = Path[pathIndex].worldPosition;
             }
-            else
+            else if(explorerBehaviour.nearestMine != null)
             {
-                StartNewPath();
+                explorerBehaviour.nearestMine.GetComponent<MineBehaviour>().Explore();
+                explorerBehaviour.marking = false;
+                explorerBehaviour.nearestMine = null;
             }
         }
     }

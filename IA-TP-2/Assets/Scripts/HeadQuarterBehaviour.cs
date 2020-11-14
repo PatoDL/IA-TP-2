@@ -2,8 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MinerBehaviour : MonoBehaviour
+public class HeadQuarterBehaviour : MonoBehaviour
 {
+    public int gold;
+
+    public void OnMinerReturn(MinerBehaviour minerBehaviour)
+    {
+        gold += minerBehaviour.goldCollected;
+        minerBehaviour.goldCollected = 0;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

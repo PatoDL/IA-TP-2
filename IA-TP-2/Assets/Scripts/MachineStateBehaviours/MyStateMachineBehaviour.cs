@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MyStateMachineBehaviour : StateMachineBehaviour
 {
-    public float TargetRadius;
+    public float TargetRadius = 50f;
     public Vector3 Target;
-    public float speed;
+    public float speed = 5f;
     protected Transform transform;
-    public float nearRadius;
+    public float nearRadius = 0.3f;
     protected Pathfinding pathfinding;
     protected int pathIndex = 0;
     protected List<Node> Path;
@@ -20,9 +20,7 @@ public class MyStateMachineBehaviour : StateMachineBehaviour
 
         transform = animator.GetComponent<Transform>();
         pathfinding = animator.GetComponent<Pathfinding>();
-        grid = animator.GetComponent<ExplorerBehaviour>().grid;
-
-       
+        grid = animator.GetComponent<WorkerBehaviour>().grid;
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

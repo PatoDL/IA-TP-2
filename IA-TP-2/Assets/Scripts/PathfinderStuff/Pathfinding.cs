@@ -4,23 +4,6 @@ using System.Collections.Generic;
 
 public class Pathfinding : MonoBehaviour
 {
-
-    public Transform seeker, target;
-    //public Grid grid;
-
-    public static Pathfinding Instance;
-
-    void Awake()
-    {
-        Instance = this;
-
-    }
-
-    void Update()
-    {
-        //FindPath(seeker.position, target.position);
-    }
-
     public void FindPath(Vector3 startPos, Vector3 targetPos, Grid grid)
     {
         Node startNode = grid.NodeFromWorldPoint(startPos);

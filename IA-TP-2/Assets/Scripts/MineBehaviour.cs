@@ -10,10 +10,12 @@ public class MineBehaviour : MonoBehaviour
 
     public OnMineExplore ExploreMine;
 
+    public int goldAmount;
+
     // Start is called before the first frame update
     void Start()
     {
-        alreadyExplored = false;
+        //alreadyExplored = false;
     }
 
     public void Explore()

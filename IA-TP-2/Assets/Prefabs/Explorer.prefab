@@ -109,13 +109,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: {fileID: 0}
-  mineSearchRadius: 0
+  mineSearchRadius: 5
   mineLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   nearestMine: {fileID: 0}
   canSearch: 0
-  searchChargeTime: 0
+  searchChargeTime: 10
 --- !u!95 &1064591972912319347
 Animator:
   serializedVersion: 3
@@ -147,5 +147,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2890131a436ed7940845644fc853c43f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seeker: {fileID: 0}
-  target: {fileID: 0}

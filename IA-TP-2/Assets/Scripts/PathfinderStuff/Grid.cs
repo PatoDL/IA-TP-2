@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class Grid : MonoBehaviour
 {
-
     public LayerMask unwalkableMask;
     public Vector2 gridWorldSize;
     public float nodeRadius;
