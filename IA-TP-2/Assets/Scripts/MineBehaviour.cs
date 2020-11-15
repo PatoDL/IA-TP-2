@@ -10,23 +10,46 @@ public class MineBehaviour : MonoBehaviour
 
     public OnMineExplore ExploreMine;
 
+    public delegate void OnMineEnding(GameObject g);
+
+    public OnMineEnding EndMining;
+
     public int goldAmount;
+
+    public MineSpawnerBehaviour mineSpawner;
 
     // Start is called before the first frame update
     void Start()
     {
-        //alreadyExplored = false;
+        if (mineSpawner == null)
+        {
+            mineSpawner = GameObject.Find("MineSpawner").GetComponent<MineSpawnerBehaviour>();
+        }
+
+        transform.parent = mineSpawner.transform;
+
+        ExploreMine += Mark;
+        ExploreMine += mineSpawner.CheckExploredMines;
+        EndMining += mineSpawner.RemoveMine;
+        EndMining += Destroy;
     }
 
-    public void Explore()
+    void OnDestroy()
+    {
+        ExploreMine -= Mark;
+        ExploreMine -= mineSpawner.CheckExploredMines;
+        EndMining -= mineSpawner.RemoveMine;
+        EndMining -= Destroy;
+    }
+
+    public void StartMining()
+    {
+        transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.color = Color.red;
+    }
+
+    public void Mark()
     {
         alreadyExplored = true;
         transform.GetChild(0).gameObject.SetActive(true);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -52,6 +52,12 @@ public class Pathfinding : MonoBehaviour
                         openSet.Add(neighbour);
                 }
             }
+
+            if (openSet.Count == 0 && node != targetNode)
+            {
+                grid.path = RetracePath(startNode, node);
+                return;
+            }
         }
     }
 

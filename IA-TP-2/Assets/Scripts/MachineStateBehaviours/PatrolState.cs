@@ -11,7 +11,7 @@ public class PatrolState : MyStateMachineBehaviour
     {
         base.OnStateEnter(animator, stateInfo, layerIndex);
         workerBehaviour = animator.GetComponent<WorkerBehaviour>();
-        if (workerBehaviour != null)
+        if (workerBehaviour.GetComponent<MinerBehaviour>() != null)
             workerBehaviour.canSearch = true;
         StartNewPath();
     }
@@ -27,20 +27,20 @@ public class PatrolState : MyStateMachineBehaviour
     {
         base.OnStateUpdate(animator, stateInfo, layerIndex);
 
-        transform.rotation = Quaternion.LookRotation(new Vector3(Target.x - transform.position.x, 0f,
-            Target.z - transform.position.z), Vector3.up);
+        transform.rotation = Quaternion.LookRotation(new Vector3(target.x - transform.position.x, 0f,
+            target.z - transform.position.z), Vector3.up);
 
         transform.position += transform.forward * speed * Time.deltaTime;
 
         Vector2 pos = new Vector2(transform.position.x, transform.position.z);
-        Vector2 tar = new Vector2(Target.x, Target.z);
+        Vector2 tar = new Vector2(target.x, target.z);
 
         if (Vector2.Distance(pos, tar) < nearRadius)
         {
-            if (pathIndex < Path.Count - 1)
+            if (pathIndex < path.Count - 1)
             {
                 pathIndex++;
-                Target = Path[pathIndex].worldPosition;
+                target = path[pathIndex].worldPosition;
             }
             else
             {

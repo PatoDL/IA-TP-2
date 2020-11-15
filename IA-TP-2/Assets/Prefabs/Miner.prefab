@@ -109,12 +109,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: {fileID: 0}
-  mineSearchRadius: 0
+  mineSearchRadius: 5
   mineLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   nearestMine: {fileID: 0}
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 256
   canSearch: 1
+  detectionConeMax: 60
+  headQuartersBehaviour: {fileID: 0}
+  positionWhenMineFound: {x: 0, y: 0, z: 0}
+  maxGoldAmount: 50
+  goldCollected: 0
+  isMining: 0
+  goldPerSecond: 10
+  timer: 1
 --- !u!95 &525728981803674525
 Animator:
   serializedVersion: 3

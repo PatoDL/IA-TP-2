@@ -10,9 +10,9 @@ public class ReturningState : MyStateMachineBehaviour
     {
         base.OnStateEnter(animator, stateInfo, layerIndex);
         minerBehaviour = animator.GetComponent<MinerBehaviour>();
-        if (minerBehaviour != null && minerBehaviour.headQuartersTransform != null)
+        if (minerBehaviour != null && minerBehaviour.headQuartersBehaviour != null)
         {
-            StartNewPath(minerBehaviour.headQuartersTransform.position);
+            StartNewPath(minerBehaviour.headQuartersBehaviour.transform.position);
         }
     }
 
@@ -21,24 +21,24 @@ public class ReturningState : MyStateMachineBehaviour
     {
         base.OnStateUpdate(animator, stateInfo, layerIndex);
 
-        transform.rotation = Quaternion.LookRotation(new Vector3(Target.x - transform.position.x, 0f,
-            Target.z - transform.position.z), Vector3.up);
+        transform.rotation = Quaternion.LookRotation(new Vector3(target.x - transform.position.x, 0f,
+            target.z - transform.position.z), Vector3.up);
 
         transform.position += transform.forward * speed * Time.deltaTime;
 
         Vector2 pos = new Vector2(transform.position.x, transform.position.z);
-        Vector2 tar = new Vector2(Target.x, Target.z);
+        Vector2 tar = new Vector2(target.x, target.z);
 
         if (Vector2.Distance(pos, tar) < nearRadius)
         {
-            if (pathIndex < Path.Count - 1)
+            if (pathIndex < path.Count - 1)
             {
                 pathIndex++;
-                Target = Path[pathIndex].worldPosition;
+                target = path[pathIndex].worldPosition;
             }
-            else if (minerBehaviour.headQuartersTransform != null)
+            else if (minerBehaviour.headQuartersBehaviour != null)
             {
-                minerBehaviour.headQuartersTransform.GetComponent<HeadQuarterBehaviour>().OnMinerReturn(minerBehaviour);
+                minerBehaviour.headQuartersBehaviour.OnMinerReturn(minerBehaviour);
                 animator.SetTrigger("ContinueWorking");
             }
         }

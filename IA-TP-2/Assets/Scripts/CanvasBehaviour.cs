@@ -14,4 +14,9 @@ public class CanvasBehaviour : MonoBehaviour
         if(goldText && headQuarterBehaviour)
             goldText.text = "Gold: " + headQuarterBehaviour.gold.ToString();
     }
+
+    public void HidePanel(GameObject g)
+    {
+        g.SetActive(false);
+    }
 }

@@ -21,24 +21,33 @@ public class MiningState : MyStateMachineBehaviour
     {
         base.OnStateUpdate(animator, stateInfo, layerIndex);
 
-        transform.rotation = Quaternion.LookRotation(new Vector3(Target.x - transform.position.x, 0f,
-            Target.z - transform.position.z), Vector3.up);
-
-        transform.position += transform.forward * speed * Time.deltaTime;
-
-        Vector2 pos = new Vector2(transform.position.x, transform.position.z);
-        Vector2 tar = new Vector2(Target.x, Target.z);
-
-        if (Vector2.Distance(pos, tar) < nearRadius)
+        if (!minerBehaviour.isMining)
         {
-            if (pathIndex < Path.Count - 1)
+            transform.rotation = Quaternion.LookRotation(new Vector3(target.x - transform.position.x, 0f,
+                target.z - transform.position.z), Vector3.up);
+
+            transform.position += transform.forward * speed * Time.deltaTime;
+
+            Vector2 pos = new Vector2(transform.position.x, transform.position.z);
+            Vector2 tar = new Vector2(target.x, target.z);
+
+            if (Vector2.Distance(pos, tar) < nearRadius)
             {
-                pathIndex++;
-                Target = Path[pathIndex].worldPosition;
-            }
-            else if (minerBehaviour.nearestMine != null)
-            {
-                minerBehaviour.isMining = true;
+                if (pathIndex < path.Count - 1)
+                {
+                    pathIndex++;
+                    target = path[pathIndex].worldPosition;
+                }
+                else if (minerBehaviour.nearestMine != null)
+                {
+                    minerBehaviour.nearestMine.GetComponent<MineBehaviour>().StartMining();
+                    if (Vector3.Distance(animator.transform.position, minerBehaviour.nearestMine.position) > 3f)
+                    {
+                        Debug.Log("Roto");
+                        Debug.Log(minerBehaviour.positionWhenMineFound);
+                    }
+                    minerBehaviour.isMining = true;
+                }
             }
         }
     }

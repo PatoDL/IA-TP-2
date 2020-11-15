@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9608dec9eaff3c741b4e21232f383d63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alreadyExplored: 1
+  alreadyExplored: 0
   goldAmount: 100
 --- !u!1 &1835478131983787916
 GameObject:

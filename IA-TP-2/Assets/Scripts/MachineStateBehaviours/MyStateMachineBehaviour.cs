@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class MyStateMachineBehaviour : StateMachineBehaviour
 {
-    public float TargetRadius = 50f;
-    public Vector3 Target;
+    public float targetRadius = 50f;
+    public Vector3 target;
     public float speed = 5f;
     protected Transform transform;
     public float nearRadius = 0.3f;
     protected Pathfinding pathfinding;
     protected int pathIndex = 0;
-    protected List<Node> Path;
+    protected List<Node> path;
     protected Grid grid;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -31,14 +31,14 @@ public class MyStateMachineBehaviour : StateMachineBehaviour
 
     protected Vector3 SearchForPoint()
     {
-        Vector2 aux = Random.insideUnitCircle * TargetRadius;
+        Vector2 aux = Random.insideUnitCircle * targetRadius;
         Vector3 pos = new Vector3(transform.position.x + aux.x, transform.position.y, transform.position.z + aux.y);
         Node n = grid.NodeFromWorldPoint(pos);
         if (n == null)
         {
             while (n == null)
             {
-                aux = Random.insideUnitCircle * TargetRadius;
+                aux = Random.insideUnitCircle * targetRadius;
                 pos = new Vector3(transform.position.x + aux.x, transform.position.y, transform.position.z + aux.y);
                 n = grid.NodeFromWorldPoint(pos);
             }
@@ -48,20 +48,24 @@ public class MyStateMachineBehaviour : StateMachineBehaviour
     }
 
     protected void StartNewPath()
-    { 
-        Target = SearchForPoint();
-        pathfinding.FindPath(transform.position, Target, grid);
-        Path = grid.path;
+    {
+        target = SearchForPoint();
+        pathfinding.FindPath(transform.position, target, grid);
+        path = grid.path;
+        if (path == null)
+        {
+            Debug.Log("nulo");
+        }
         pathIndex = 0;
-        Target = Path[pathIndex].worldPosition;
+        target = path[pathIndex].worldPosition;
     }
 
     protected void StartNewPath(Vector3 newTarget)
     {
-        Target = newTarget;
-        pathfinding.FindPath(transform.position, Target, grid);
-        Path = grid.path;
+        target = newTarget;
+        pathfinding.FindPath(transform.position, target, grid);
+        path = grid.path;
         pathIndex = 0;
-        Target = Path[pathIndex].worldPosition;
+        target = path[pathIndex].worldPosition;
     }
 }

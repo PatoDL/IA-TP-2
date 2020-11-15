@@ -106,3 +106,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7b9fc2b0a17dbf48b033ff28d7b0368, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gold: 100
+  minerPF: {fileID: 7609526026042828711, guid: 17795d87c3223e94087eaae90870921d, type: 3}
+  explorerPF: {fileID: 1741453327547740912, guid: bb536e8a87e228e49a6048f6d0aea694,
+    type: 3}
+  minerCost: 20
+  explorerCost: 30
+  grid: {fileID: 0}

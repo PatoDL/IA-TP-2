@@ -13,7 +13,7 @@ public class MinerBehaviour : WorkerBehaviour
     public float timer;
     float timerHandler;
 
-    public Transform headQuartersTransform;
+    
 
     // Start is called before the first frame update
     new void Start()
@@ -49,6 +49,7 @@ public class MinerBehaviour : WorkerBehaviour
             if (mineBehaviour.goldAmount <= 0f)
             {
                 goldCollected += mineBehaviour.goldAmount;
+                nearestMine.GetComponent<MineBehaviour>().EndMining(mineBehaviour.gameObject);
                 Destroy(nearestMine.gameObject);
                 nearestMine = null;
                 animator.SetBool("MineMined", true);

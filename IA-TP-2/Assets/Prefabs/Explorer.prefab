@@ -114,8 +114,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   nearestMine: {fileID: 0}
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 256
   canSearch: 0
+  detectionConeMax: 60
+  headQuartersBehaviour: {fileID: 0}
+  positionWhenMineFound: {x: 0, y: 0, z: 0}
   searchChargeTime: 10
+  marking: 0
 --- !u!95 &1064591972912319347
 Animator:
   serializedVersion: 3

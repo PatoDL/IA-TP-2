@@ -1,69 +1,100 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using UnityEditor;
 using UnityEngine;
 
 public class MineSpawnerBehaviour : MonoBehaviour
 {
-    public float SpawnTime;
-    private float SpawnTimeHandler;
-    public Collider Floor;
-    public GameObject MinePF;
-    public LayerMask MineLayer;
+    public float spawnTime;
+    private float spawnTimeHandler;
+    public Collider floor;
+    public GameObject minePF;
+    public LayerMask mineLayer;
     public int minAmountOfUnexploredMines;
-    private List<MineBehaviour> Mines = new List<MineBehaviour>();
+    private List<MineBehaviour> mines = new List<MineBehaviour>();
 
+    public float unexploredMines = 0;
 
+    public bool shouldSpawn = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        SpawnTimeHandler = SpawnTime;
+        spawnTimeHandler = spawnTime;
+        if (shouldSpawn)
+        {
+            while (mines.Count < minAmountOfUnexploredMines)
+            {
+                SpawnMine();
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        SpawnTime -= Time.deltaTime;
-        if (SpawnTime <= 0)
+        spawnTime -= Time.deltaTime;
+        if (spawnTime <= 0)
         {
             SpawnMine();
-            SpawnTime = SpawnTimeHandler;
+            spawnTime = spawnTimeHandler;
         }
+
+        unexploredMines = 0;
+        for (int i = 0; i < mines.Count; i++)
+        {
+            if (!mines[i].alreadyExplored)
+                unexploredMines++;
+        }
+    }
+
+    public void RemoveMine(GameObject g)
+    {
+        mines.Remove(g.GetComponent<MineBehaviour>());
     }
 
     private void SpawnMine()
     {
-        float mineSize = MinePF.transform.localScale.x;
-        mineSize /= 2;
-        float randomX = Random.Range(Floor.bounds.min.x + mineSize, Floor.bounds.max.x - mineSize);
-        float randomZ = Random.Range(Floor.bounds.min.z + mineSize, Floor.bounds.max.z - mineSize);
-        Vector3 gPos = new Vector3(randomX, Floor.bounds.max.y, randomZ);
-
-        Collider[] nearColliders = Physics.OverlapSphere(gPos, mineSize, MineLayer);
-
-        if (nearColliders.Length == 0)
+        if (shouldSpawn)
         {
-            GameObject g = Instantiate(MinePF);
-            g.transform.position = gPos;
-            g.transform.rotation = Quaternion.identity;
+            float mineSize = minePF.transform.localScale.x;
+            mineSize /= 2;
+            float randomX = Random.Range(floor.bounds.min.x + mineSize, floor.bounds.max.x - mineSize);
+            float randomZ = Random.Range(floor.bounds.min.z + mineSize, floor.bounds.max.z - mineSize);
+            Vector3 gPos = new Vector3(randomX, floor.bounds.max.y, randomZ);
 
-            MineBehaviour mineBehaviour = g.GetComponent<MineBehaviour>();
+            Collider[] nearColliders = Physics.OverlapSphere(gPos, mineSize, mineLayer);
 
-            Mines.Add(mineBehaviour);
-            mineBehaviour.ExploreMine = CheckExploredMines;
+            if (nearColliders.Length == 0)
+            {
+                GameObject g = Instantiate(minePF);
+                g.transform.position = gPos;
+                g.transform.rotation = Quaternion.identity;
+
+                MineBehaviour mineBehaviour = g.GetComponent<MineBehaviour>();
+                mineBehaviour.mineSpawner = this;
+                mines.Add(mineBehaviour);
+            }
         }
     }
 
-    private void CheckExploredMines()
+    public void CheckExploredMines()
     {
-        int exploredMines = 0;
-        for (int i = 0; i < Mines.Count; i++)
+        if (shouldSpawn)
         {
-            if (Mines[i].alreadyExplored)
-                exploredMines++;
-        }
+            int unexploredMines = 0;
+            while (unexploredMines < minAmountOfUnexploredMines)
+            {
+                for (int i = 0; i < mines.Count; i++)
+                {
+                    if (!mines[i].alreadyExplored)
+                        unexploredMines++;
+                }
 
-        while (exploredMines < minAmountOfUnexploredMines)
-            SpawnMine();
+                if (unexploredMines < minAmountOfUnexploredMines)
+                    SpawnMine();
+            }
+        }
     }
 }
