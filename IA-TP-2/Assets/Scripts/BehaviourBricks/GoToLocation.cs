@@ -12,6 +12,7 @@ public class GoToLocation : GOAction
 
     public override void OnStart()
     {
+        Debug.Log("Entered gotolocation");
         exploderBehaviour = gameObject.GetComponent<ExploderBehaviour>();
         exploderBehaviour.StartNewPath(exploderBehaviour.NearestMine.transform.position);
     }
@@ -23,8 +24,8 @@ public class GoToLocation : GOAction
             exploderBehaviour.ReachedLocation = false;
             return TaskStatus.COMPLETED;
         }
-            
 
+        Debug.Log("going to location");
         exploderBehaviour.ContinuePath();
 
         return TaskStatus.RUNNING;

@@ -14,8 +14,12 @@ public class AreMinesNear : ConditionBase
 
     public override bool Check()
     {
-        if(exploderBehaviour.NearestMine != null)
+        if (exploderBehaviour.NearestMine != null)
+        {
+            Debug.Log("mines near");
             return true;
+        }
+            
 
         return false;
     }

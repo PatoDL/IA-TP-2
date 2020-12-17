@@ -42,6 +42,11 @@ public class MineBehaviour : MonoBehaviour
         EndMining -= Destroy;
     }
 
+    public void Explode()
+    {
+
+    }
+
     public void StartMining()
     {
         transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.color = Color.red;

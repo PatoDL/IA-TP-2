@@ -41,12 +41,7 @@ public class MineSpawnerBehaviour : MonoBehaviour
             spawnTime = spawnTimeHandler;
         }
 
-        unexploredMines = 0;
-        for (int i = 0; i < mines.Count; i++)
-        {
-            if (!mines[i].alreadyExplored)
-                unexploredMines++;
-        }
+        CheckExploredMines();
     }
 
     public void RemoveMine(GameObject g)
@@ -83,7 +78,7 @@ public class MineSpawnerBehaviour : MonoBehaviour
     {
         if (shouldSpawn)
         {
-            int unexploredMines = 0;
+            unexploredMines = 0;
             while (unexploredMines < minAmountOfUnexploredMines)
             {
                 for (int i = 0; i < mines.Count; i++)

@@ -11,6 +11,7 @@ public class ExploderBehaviour : MonoBehaviour
     [SerializeField] private float mineRadius = 3f;
     [SerializeField] private float explosionRadius = 1f;
     [SerializeField] private Grid grid;
+    [SerializeField] private GameObject explosionPF;
     #endregion
 
     #region PRIVATE_FIELDS
@@ -28,6 +29,13 @@ public class ExploderBehaviour : MonoBehaviour
     #region PROPERTIES
     public bool ReachedLocation { get => reachedLocation; set => reachedLocation = value; }
     public GameObject NearestMine { get => nearestMine; set => nearestMine = value; }
+
+    public Grid Grid
+    {
+        get => grid;
+        set => grid = value;
+    }
+
     #endregion
 
     // Start is called before the first frame update
@@ -110,8 +118,13 @@ public class ExploderBehaviour : MonoBehaviour
         for (int i = 0; i < colliders.Length; i++)
         {
             MineBehaviour mb = colliders[i].GetComponent<MineBehaviour>();
-
-            Destroy(mb.gameObject);
+            if (mb != null && !mb.alreadyExplored)
+            {
+                Instantiate(explosionPF, mb.transform.position, Quaternion.identity);
+                mb.mineSpawner.RemoveMine(mb.gameObject);
+                Destroy(mb.gameObject);
+                Destroy(gameObject);
+            }
         }
     }
 

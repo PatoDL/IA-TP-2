@@ -15,7 +15,13 @@ public class Explode : GOAction
 
     public override void OnStart()
     {
+        Debug.Log("Entered explode");
         exploderBehaviour = gameObject.GetComponent<ExploderBehaviour>();
         exploderBehaviour.Explode();
+    }
+
+    public override TaskStatus OnUpdate()
+    {
+        return TaskStatus.NONE;
     }
 }

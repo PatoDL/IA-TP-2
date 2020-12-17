@@ -14,6 +14,7 @@ public class Wander : GOAction
 
     public override void OnStart()
     {
+        Debug.Log("Entered wander");
         exploderBehaviour = gameObject.GetComponent<ExploderBehaviour>();
         exploderBehaviour.StartNewPath();
     }
@@ -22,6 +23,7 @@ public class Wander : GOAction
     {
         if(exploderBehaviour.ReachedLocation)
         {
+            Debug.Log("end wander");
             exploderBehaviour.ReachedLocation = false;
             return TaskStatus.COMPLETED;
         }
