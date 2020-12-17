@@ -52,10 +52,6 @@ public class MyStateMachineBehaviour : StateMachineBehaviour
         target = SearchForPoint();
         pathfinding.FindPath(transform.position, target, grid);
         path = grid.path;
-        if (path == null)
-        {
-            Debug.Log("nulo");
-        }
         pathIndex = 0;
         target = path[pathIndex].worldPosition;
     }
